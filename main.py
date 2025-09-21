@@ -4,7 +4,8 @@ import sqlite3
 from hashlib import sha256
 import re
 from fastapi.middleware.cors import CORSMiddleware  # ✅ added this
- 
+import random
+import string
  
 # Define what data the API expects to receive
 class PasswordRequest(BaseModel):
@@ -17,6 +18,18 @@ class PasswordResponse(BaseModel):
     is_breached: bool
     suggestions: list[str]
  
+class GeneratePasswordRequest(BaseModel):
+    length: int = 12
+    include_uppercase: bool = True
+    include_lowercase: bool = True
+    include_digits: bool = True
+    include_special: bool = True
+
+class GeneratePasswordResponse(BaseModel):
+    generated_password: str
+    strength_score:int
+    strength_category: str
+
 # Create the FastAPI app instance
 app = FastAPI(title="Password Checker API")
  
@@ -83,7 +96,44 @@ def check_breach(password: str) -> bool:
     conn.close()
    
     return result
- 
+# helper function to generate random password
+def generate_password(length: int = 12, include_uppercase: bool = True,
+                      include_lowercase: bool = True, include_digits: bool = True,
+                      include_special: bool = True) -> str:
+    """
+    Generate a random password with specified criteria.
+    Default: 12 characters with uppercase, lowercase, digits, and special characters.
+    """
+    character_sets = []
+
+    if include_lowercase:
+        character_sets.append(string.ascii_lowercase)
+    if include_uppercase:
+        character_sets.append(string.ascii_uppercase)
+    if include_digits:
+        character_sets.append(string.digits)
+    if include_special:
+        character_sets.append("!@#$%^&*()_+-=[]{}|;:,.<>?")
+    
+    # ensure at least one character set is selected
+    if not character_sets:
+        character_sets.append(string.ascii_letters + string.digits + "!@#$%^&*")
+
+    # generate password ensuring at least one character from each selected set
+    password = []
+    for char_set in character_sets:
+        password.append(random.choice(char_set))
+
+    # fill the rest randomly
+    all_chars = ''.join(character_sets)
+    while len(password) < length:
+        password.append(random.choice(all_chars))
+
+    random.shuffle(password)    # shuffle to avoid predictable patterns
+
+
+    return ''.join(password)
+
 # The key endpoint that does everything
 @app.post("/check", response_model=PasswordResponse)
 async def check_password(request: PasswordRequest):
@@ -104,7 +154,38 @@ async def check_password(request: PasswordRequest):
         is_breached=is_breached,
         suggestions=suggestions
     )
- 
+
+@app.post("/generate", response_model=GeneratePasswordResponse)
+async def generate_password_endpoint(request: GeneratePasswordRequest = GeneratePasswordRequest()):
+    # generate the password
+    password = generate_password(
+        length=request.length,
+        include_uppercase=request.include_uppercase,
+        include_lowercase=request.include_lowercase,
+        include_digits=request.include_digits,
+        include_special=request.include_special
+    )
+    
+    score, category, _ = check_strength(password) # check its strength (optional but useful)
+
+    return GeneratePasswordResponse(
+        generated_password=password,
+        strength_score=score,
+        strength_category=category
+    )
+
+# quick generate endpoint with default settings
+@app.get("/generate-quick", response_model=GeneratePasswordResponse)
+async def generate_password_quick():
+    password = generate_password()  # Uses default 12 chars with all types
+    score, category, _ = check_strength(password)
+    
+    return GeneratePasswordResponse(
+        generated_password=password,
+        strength_score=score,
+        strength_category=category
+    )
+
 # Root endpoint for testing
 @app.get("/")
 async def root():

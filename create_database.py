@@ -10,11 +10,10 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS breached_hashes (
                     hash TEXT PRIMARY KEY
                 )''')
 
-# --- USE THE TEST FILE FIRST! ---
-test_file = 'test_passwords.txt' # Use your small file here
-
-with open(test_file, 'r', encoding='utf-8') as f: # encoding might not be needed for your test file
-    for line in f:
+with open('rockyou.txt', 'r', encoding='latin-1') as f: # encoding might not be needed for your test file
+    for i, line in enumerate(f):
+        if i >= 10000: # stop after 10,000 passwords
+            break
         password = line.strip()
         if password: # Make sure the line isn't empty
             # Hash the password using SHA-256
@@ -28,4 +27,4 @@ with open(test_file, 'r', encoding='utf-8') as f: # encoding might not be needed
 # Save the changes and close the connection
 conn.commit()
 conn.close()
-print(f"Database populated successfully with data from {test_file}!")
+print(f"Database populated successfully with rockyou.txt!")
