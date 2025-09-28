@@ -144,8 +144,7 @@ async def check_password(request: PasswordRequest):
     is_breached = check_breach(request.password)
    
     # If breached, add a critical suggestion
-    if is_breached:
-        suggestions.insert(0, "⚠️ This password has been found in known data breaches. DO NOT use it.")
+
    
     # 3. Send back the combined response
     return PasswordResponse(
