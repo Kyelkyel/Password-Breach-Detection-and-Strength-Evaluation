@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LandingPage.css";
 
 function LandingPage() {
   const [password, setPassword] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const tips = [
     "Use a unique password for each account.",
@@ -13,13 +15,22 @@ function LandingPage() {
     "Avoid using personal info like birthdays in passwords.",
     "Use a password manager to keep track of your passwords.",
     "Change your important passwords regularly.",
-    "Don’t reuse old passwords for new accounts."
+    "Don't reuse old passwords for new accounts."
   ];
   
   const todayTip = useMemo(() => {
     const randomIndex = Math.floor(Math.random() * tips.length);
     return tips[randomIndex];
   }, []);
+
+  // Debug navigation function
+  const handleGeneratorClick = () => {
+    console.log("Generator button clicked!");
+    console.log("Current URL:", window.location.href);
+    console.log("Navigate function:", navigate);
+    navigate('/generator');
+    console.log("Navigate to /generator called");
+  };
 
   const handleCheck = async () => {
     if (!password) return;
@@ -74,7 +85,9 @@ function LandingPage() {
           <nav>
             <ul className="nav-links">
               <li>
-                <button className="nav-btn">Generator</button>
+                <button className="nav-btn" onClick={handleGeneratorClick}>
+                  Generator
+                </button>
               </li>
             </ul>
           </nav>
@@ -168,7 +181,9 @@ function LandingPage() {
             Pellentesque quis tincidunt sit amet. Tortor massa sed habitant dignissim senectus purus.
             Consectetur integer id in et pulvinar interdum id.
           </p>
-          <button className="feature-btn">Password Generator →</button>
+          <button className="feature-btn" onClick={handleGeneratorClick}>
+            Password Generator →
+          </button>
         </div>
 
         <div className="feature-card">
@@ -315,12 +330,7 @@ function LandingPage() {
             </p>
             <button
               className="faq-btn"
-              onClick={() => {
-                const generatorSection = document.querySelector(".feature-section");
-                if (generatorSection) {
-                  generatorSection.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
+              onClick={handleGeneratorClick}
             >
               Need Help? Generate Here
             </button>
