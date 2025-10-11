@@ -58,8 +58,7 @@ export default function Generator() {
           <div className="generator-password-box">
             <span>{password}</span>
             <div className="generator-password-actions">
-              <button className="generator-btn" onClick={copyPassword}>📋 Copy</button>
-              <button className="generator-btn" onClick={generatePassword}>🔄 Regenerate</button>
+              <button className="generator-btn" onClick={generatePassword}>Regenerate</button>
             </div>
           </div>
           <div className="generator-green-bar"></div>
@@ -71,13 +70,13 @@ export default function Generator() {
               <input
                 type="number"
                 value={length}
-                min="4"
+                min="8"
                 max="32"
                 onChange={(e) => setLength(Number(e.target.value))}
               />
               <input
                 type="range"
-                min="4"
+                min="8"
                 max="32"
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
@@ -85,11 +84,6 @@ export default function Generator() {
             </div>
 
             <div className="generator-options">
-              <div className="generator-options-left">
-                <label><input type="radio" name="mode" /> Easy to say</label>
-                <label><input type="radio" name="mode" /> Easy to read</label>
-                <label><input type="radio" name="mode" defaultChecked /> All characters</label>
-              </div>
               <div className="generator-options-right">
                 <label>
                   <input

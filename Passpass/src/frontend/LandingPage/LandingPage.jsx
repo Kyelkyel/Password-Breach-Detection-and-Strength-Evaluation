@@ -178,8 +178,8 @@ function LandingPage() {
           
           <h3>Password Generator</h3>
           <p>
-            Pellentesque quis tincidunt sit amet. Tortor massa sed habitant dignissim senectus purus.
-            Consectetur integer id in et pulvinar interdum id.
+            A secure password generator that creates strong, random, and unique passwords to keep your accounts better protected.
+
           </p>
           <button className="feature-btn" onClick={handleGeneratorClick}>
             Password Generator →
@@ -190,8 +190,8 @@ function LandingPage() {
           
           <h3>Learn More</h3>
           <p>
-            Quam sed neque vitae viverra purus venenatis ac non. Eget sed nunc, amet nibh nulla.
-            Morbi sed risus ullamcorper diam, elit ut non.
+            Want to know how PassPass works, what makes it secure, and how it protects your data? Visit our FAQs to learn more.
+
           </p>
           <button
             className="feature-btn"
@@ -211,8 +211,8 @@ function LandingPage() {
           
           <h3>Stay Safe</h3>
           <p>
-            Euismod sed pellentesque ut elementum. Accumsan gravida turpis ac at.
-            Ullamcorper vitae non est elit odio at augue consequat.
+            Always use strong, unique passwords for every account, update them regularly, and stay safe online.
+
           </p>
           <button
             className="feature-btn"
@@ -234,8 +234,8 @@ function LandingPage() {
         <div className="info-text">
           <h4>Is it safe to use password checkers?</h4>
           <p>
-            Id urna, nisl, ut quam. Diam suspendisse fringilla quam arcu mattis est velit in.
-            Nibh in purus sit convallis phasellus ut. Neque suspendisse a habitasse commodo.
+            Yes, if the tool is trusted and secure. A safe password checker should never send or store your passwords, only analyze them locally.
+
           </p>
         </div>
         <div className="info-image">
@@ -245,13 +245,13 @@ function LandingPage() {
 
       <section className="info-section dark-bg">
         <div className="info-image">
-          <img src="\src\assets\password.png" alt="importance" />
+          <img src="\src\assets\passwordd.png" alt="importance" />
         </div>
         <div className="info-text">
           <h4>How is Passpass safe?</h4>
           <p>
-            Id urna, nisl, ut quam. Diam suspendisse fringilla quam arcu mattis est velit in.
-            Nibh in purus sit convallis phasellus ut. Neque suspendisse a habitasse commodo.
+            PassPass is designed with your privacy in mind. It checks password strength and breach history locally, without saving or sharing your data.
+
           </p>
         </div>
       </section>
